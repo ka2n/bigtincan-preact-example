@@ -1,0 +1,110 @@
+{
+  "private": true,
+  "name": "bigtincan-preact-example",
+  "version": "0.0.0",
+  "license": "MIT",
+  "scripts": {
+    "start": "per-env",
+    "start:production": "yarn run -s serve",
+    "start:development": "yarn run -s dev",
+    "build": "preact build --no-sw --template src/template.html",
+    "serve": "yarn run build && preact serve",
+    "package": "yarn build && yarn run package:zip",
+    "package:zip": "cd ./build && mkdir -p ../dist && zip -r \"../dist/$(yarn run -s package:version).btca\" . && cd -",
+    "package:version": "bash ./vendor/version",
+    "dev": "preact watch --no-sw --template src/template.html",
+    "lint": "exit 0",
+    "test": "jest ./tests",
+    "ci:package": "yarn build && yarn run ci:package:zip",
+    "ci:package:zip": "cd ./build && mkdir -p ../dist && zip -r \"../dist/archive.btca\" . && cd -",
+    "ci:lint": "yarn lint",
+    "ci:test": "yarn test",
+    "lint-staged": "lint-staged"
+  },
+  "pre-commit": "lint-staged",
+  "lint-staged": {
+    "*.{js,jsx,css,md,scss}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "eslintConfig": {
+    "extends": "eslint-config-aerian"
+  },
+  "eslintIgnore": [
+    "build/*"
+  ],
+  "devDependencies": {
+    "@types/enzyme": "^3.10.4",
+    "@types/jest": "^24.0.24",
+    "@types/jsdom": "^12.2.4",
+    "@types/node": "^12.12.22",
+    "@types/webpack-env": "^1.13.9",
+    "css-loader": "^1.0.1",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-preact-pure": "^2.2.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^24.9.0",
+    "jsdom": "^15.2.1",
+    "lint-staged": "^9.5.0",
+    "per-env": "^1.0.2",
+    "pre-commit": "^1.2.2",
+    "preact-cli": "^3.0.0-next.19",
+    "prettier": "^1.15.3",
+    "ts-jest": "^24.2.0",
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.7.3",
+    "typings-for-css-modules-loader": "^1.7.0"
+  },
+  "dependencies": {
+    "preact": "^10.0.0",
+    "preact-jsx-chai": "^3.0.0",
+    "preact-markup": "^2.0.0",
+    "preact-render-to-string": "^5.0.6"
+  },
+  "peerDependencies": {
+    "prettier": ">1.0.0"
+  },
+  "browserslist": {
+    "production": [
+      "ios >= 11.2.2",
+      "chromeandroid >= 64.0.3282"
+    ],
+    "development": [
+      "last 1 chrome version"
+    ]
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "verbose": true,
+    "setupFiles": [
+      "<rootDir>/src/tests/__mocks__/browserMocks.ts"
+    ],
+    "testURL": "http://localhost:8080",
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "ts",
+      "tsx"
+    ],
+    "moduleDirectories": [
+      "node_modules"
+    ],
+    "testMatch": [
+      "**/__tests__/**/*.[jt]s?(x)",
+      "**/?(*.)(spec|test).[jt]s?(x)"
+    ],
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/src/tests/__mocks__/fileMock.js",
+      "\\.(css|less|scss)$": "identity-obj-proxy",
+      "^./style$": "identity-obj-proxy",
+      "^preact$": "<rootDir>/node_modules/preact/dist/preact.min.js",
+      "^react$": "preact-compat",
+      "^react-dom$": "preact-compat",
+      "^create-react-class$": "preact-compat/lib/create-react-class",
+      "^react-addons-css-transition-group$": "preact-css-transition-group"
+    }
+  }
+}

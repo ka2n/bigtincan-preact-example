@@ -1,0 +1,18 @@
+#!/bin/env bash
+
+set -e
+
+BASE_DIR=$(cd $(dirname ${BASH_SOURCE:-$0}); pwd)
+cd $BASE_DIR/../
+
+MAJOR=${MAJOR:-${npm_package_version}}
+MAJOR=${MAJOR:-dev}
+MAJOR=${MAJOR#v}
+MAJOR_PREFIX=${MAJOR_PREFIX:-v}
+MAJOR_SUFFIX=${MAJOR_SUFFIX:-}
+
+REVISION=${REVISION:-$GITHUB_SHA}
+REVISION=${REVISION:-$(git rev-parse HEAD)}
+REVISION=${REVISION:-dev}
+SHORT_REV=${REVISION:0:8}
+echo ${MAJOR_PREFIX}${MAJOR}.${SHORT_REV}${MAJOR_SUFFIX}
